@@ -1,9 +1,14 @@
 ALERT service_down
   IF up == 0
-  
+  FOR 5m
+  LABELS { severity = "page" }
+  ANNOTATIONS {
+    summary = "Instance {{ $labels.instance }} 停止",
+    description = "{{ $labels.instance }} of job {{ $labels.job }} 已经停止运行5分钟.",
+  }
 ALERT high_load
   IF node_load1 > 0.5
   ANNOTATIONS {
-      summary = "Instance {{ $labels.instance }} under high load",
-      description = "{{ $labels.instance }} of job {{ $labels.job }} is under high load.",
+      summary = "Instance {{ $labels.instance }} 高负载",
+      description = "{{ $labels.instance }} of job {{ $labels.job }} 是高负载运行.",
   }
